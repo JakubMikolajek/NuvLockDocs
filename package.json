@@ -1,0 +1,23 @@
+{
+  "name": "nuvlock-docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakubMikolajek/NuvLockDocs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakubMikolajek/NuvLockDocs/issues"
+  },
+  "homepage": "https://github.com/JakubMikolajek/NuvLockDocs#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
