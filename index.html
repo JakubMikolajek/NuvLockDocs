@@ -38,9 +38,14 @@
         document.body.innerHTML = '<div id="swagger-ui"></div>';
         const script = document.createElement('script');
         script.src = 'https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js';
-        script.onload = () => {
+        script.onload = async () => {
+          const res = await fetch('./docs.yaml');
+          const text = await res.text();
+          const blob = new Blob([text], { type: 'application/yaml' });
+          const blobUrl = URL.createObjectURL(blob);
+
           SwaggerUIBundle({
-            url: './docs.yaml',
+            url: blobUrl,
             dom_id: '#swagger-ui',
             presets: [SwaggerUIBundle.presets.apis],
           });
