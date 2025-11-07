@@ -1,0 +1,24 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create config.js with password hash
+        env:
+          SWAGGER_PW_HASH: ${{ secrets.SWAGGER_PW_HASH }}
+        run: |
+          mkdir -p public
+          echo "window.SWAGGER_PW_HASH='${SWAGGER_PW_HASH}';" > public/config.js
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
