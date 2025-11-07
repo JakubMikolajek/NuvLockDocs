@@ -1,0 +1,643 @@
+openapi: 3.1.0
+info:
+  title: NuvLock API
+  version: 1.0.0
+
+paths:
+  /onGroupCreate:
+    post:
+      summary: 'Create new group in user system'
+      operationId: 'createGroup'
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'abc123'
+                name: 'Administrators'
+                users:
+                  - 'user1'
+                  - 'user2'
+      responses:
+        '200':
+          description: 'Group created'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: 'Group Id'
+                  message:
+                    type: string
+                    example: 'Group created'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized'
+        '500':
+          description: 'Internal server error'
+
+  /onGroupUpdate:
+    put:
+      summary: 'Update group in user system'
+      operationId: 'updateGroup'
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'abc123'
+                groupId: 'bcd456'
+                name: 'Administrators'
+                users:
+                  - 'user1'
+                  - 'user2'
+      responses:
+        '200':
+          description: 'Group updated'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: 'Group updated'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Cannot found group with id: abc_123 in system with id: bcd_123'
+        '500':
+          description: 'Internal server error'
+
+  /onGroupDelete:
+    delete:
+      summary: 'Delete group in user system'
+      operationId: 'deleteGroup'
+      tags:
+        - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteGroupData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'abc123'
+                groupId: 'bcd345'
+      responses:
+        '200':
+          description: 'Group deleted'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Group deleted'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Cannot found group with id: abc_123 in system with id: bcd_123'
+        '500':
+          description: 'Internal server error'
+
+  /onHandleInvitation:
+    post:
+      summary: 'Accept or reject invitation to join a system'
+      operationId: 'handleInvitation'
+      tags:
+        - Invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HandleInvitationData'
+            example:
+              summary: 'Example data'
+              value:
+                action: 'accepted'
+                invitationId: 'inv_abc123'
+      responses:
+        '200':
+          description: 'Invitation handled successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Invitation accepted'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Permission denied'
+        '404':
+          description: 'Invitation not found or email missing'
+        '412':
+          description: 'Invitation already used or expired'
+        '500':
+          description: 'Internal server error'
+
+  /onInvitationCreate:
+    post:
+      summary: 'Create new invitation for system user'
+      operationId: 'createInvitation'
+      tags:
+        - Invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvitationData'
+            example:
+              summary: 'Example data'
+              value:
+                inviteeEmail: 'user@example.com'
+                language: 'en'
+                systemId: 'abc123'
+      responses:
+        '200':
+          description: 'Invitation created'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: 'Invitation ID'
+                    example: 'inv_abc123'
+                  message:
+                    type: string
+                    example: 'Invitation created'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized '
+        '403':
+          description: 'Forbidden'
+        '409':
+          description: 'Conflict'
+        '500':
+          description: 'Internal server error'
+
+  /onRemoveUserFromSystem:
+    delete:
+      summary: 'Remove user from system'
+      operationId: 'removeUserFromSystem'
+      tags:
+        - Systems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveUserFromSystemData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'abc123'
+                uid: 'user_456'
+      responses:
+        '200':
+          description: 'User removed successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User removed from system'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '403':
+          description: 'Forbidden — user not admin of the system'
+        '404':
+          description: 'System not found'
+        '500':
+          description: 'Internal server error'
+
+  /onRoleChange:
+    put:
+      summary: 'Change user role in system'
+      operationId: 'changeRole'
+      tags:
+        - Systems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeRoleData'
+            example:
+              summary: 'Example data'
+              value:
+                role: 'admin'
+                systemId: 'abc123'
+                uid: 'user_456'
+      responses:
+        '200':
+          description: 'User role updated successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User role updated'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '403':
+          description: 'Forbidden — user is not system owner'
+        '404':
+          description: 'System not found'
+        '500':
+          description: 'Internal server error'
+
+  /onSystemCreate:
+    post:
+      summary: 'Create new system'
+      operationId: 'createSystem'
+      tags:
+        - Systems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSystemData'
+            example:
+              summary: 'Example data'
+              value:
+                name: 'Main Office'
+      responses:
+        '200':
+          description: 'System created successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: 'ID of the default group created within the new system'
+                    example: 'grp_123abc'
+                  message:
+                    type: string
+                    example: 'System created'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '500':
+          description: 'Internal server error'
+
+  /onSystemDelete:
+    delete:
+      summary: 'Delete system'
+      operationId: 'deleteSystem'
+      tags:
+        - Systems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteSystemData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'sys_123abc'
+      responses:
+        '200':
+          description: 'System deleted successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'System deleted'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '403':
+          description: 'Forbidden — user is not the system owner'
+        '404':
+          description: 'System not found'
+        '500':
+          description: 'Internal server error'
+
+  /onSystemUpdate:
+    put:
+      summary: 'Update system details'
+      operationId: 'updateSystem'
+      tags:
+        - Systems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSystemData'
+            example:
+              summary: 'Example data'
+              value:
+                systemId: 'sys_123abc'
+                name: 'Main Office HQ'
+      responses:
+        '200':
+          description: 'System updated successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'System updated'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '403':
+          description: 'Forbidden — user has no rights to update this system'
+        '404':
+          description: 'System not found'
+        '500':
+          description: 'Internal server error'
+
+  /onUserUpdate:
+    put:
+      summary: 'Update user profile'
+      operationId: 'updateUser'
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserData'
+            example:
+              summary: 'Example data'
+              value:
+                firstName: 'John'
+                lastName: 'Doe'
+                profilePictureBucketURL: 'avatars/user123.jpg'
+                profilePictureURL: 'https://storage.googleapis.com/bucket/avatars/user123.jpg'
+      responses:
+        '200':
+          description: 'User profile updated successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User updated'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized — user not authenticated'
+        '404':
+          description: 'User not found'
+        '500':
+          description: 'Internal server error'
+
+
+components:
+  schemas:
+    CreateGroupData:
+      type: object
+      required:
+        - name
+        - systemId
+        - users
+      properties:
+        name:
+          type: string
+          minLength: 3
+          example: 'Admins'
+        systemId:
+          type: string
+          example: 'abc123'
+        users:
+          type: array
+          items:
+            type: string
+            example: 'user_uid_1'
+      additionalProperties: false
+
+    UpdateGroupData:
+      type: object
+      required:
+        - name
+        - systemId
+        - groupId
+        - users
+      properties:
+        name:
+          type: string
+          minLength: 3
+          example: 'Admins'
+        systemId:
+          type: string
+          example: 'abc123'
+        groupId:
+          type: string
+          example: 'bcd456'
+        users:
+          type: array
+          items:
+            type: string
+            example: 'user_uid_1'
+      additionalProperties: false
+
+    DeleteGroupData:
+      type: object
+      required:
+        - systemId
+        - groupId
+      properties:
+        systemId:
+          type: string
+          example: 'abc123'
+        groupId:
+          type: string
+          example: 'bcd456'
+      additionalProperties: false
+
+    HandleInvitationData:
+      type: object
+      required:
+        - action
+        - invitationId
+      properties:
+        action:
+          type: string
+          enum: ['accepted', 'rejected']
+          example: 'accepted'
+        invitationId:
+          type: string
+          example: 'inv_abc123'
+      additionalProperties: false
+
+    CreateInvitationData:
+      type: object
+      required:
+        - inviteeEmail
+        - language
+        - systemId
+      properties:
+        inviteeEmail:
+          type: string
+          format: email
+          example: 'user@example.com'
+        language:
+          type: string
+          description: 'Language code for the invitation (e.g., en, pl)'
+          example: 'en'
+        systemId:
+          type: string
+          example: 'abc123'
+      additionalProperties: false
+
+    RemoveUserFromSystemData:
+      type: object
+      required:
+        - systemId
+        - uid
+      properties:
+        systemId:
+          type: string
+          example: 'abc123'
+        uid:
+          type: string
+          description: 'User UID to be removed from the system'
+          example: 'user_456'
+      additionalProperties: false
+
+    ChangeRoleData:
+      type: object
+      required:
+        - role
+        - systemId
+        - uid
+      properties:
+        role:
+          type: string
+          enum: ['admin', 'user' ]
+          example: 'admin'
+          description: 'New role to assign to the user'
+        systemId:
+          type: string
+          example: 'abc123'
+        uid:
+          type: string
+          description: 'User UID whose role should be changed'
+          example: 'user_456'
+      additionalProperties: false
+
+    CreateSystemData:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 3
+          description: 'Name of the system to create'
+          example: 'Main Office'
+      additionalProperties: false
+
+    DeleteSystemData:
+      type: object
+      required:
+        - systemId
+      properties:
+        systemId:
+          type: string
+          description: 'Unique identifier of the system to delete'
+          example: 'sys_123abc'
+      additionalProperties: false
+
+    UpdateSystemData:
+      type: object
+      required:
+        - name
+        - systemId
+      properties:
+        name:
+          type: string
+          minLength: 3
+          description: 'New name for the system'
+          example: 'Main Office HQ'
+        systemId:
+          type: string
+          description: 'Unique identifier of the system to update'
+          example: 'sys_123abc'
+      additionalProperties: false
+
+    UpdateUserData:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - profilePictureBucketURL
+        - profilePictureURL
+      properties:
+        firstName:
+          type: string
+          description: 'User first name'
+          example: 'John'
+        lastName:
+          type: string
+          description: 'User last name'
+          example: 'Doe'
+        profilePictureBucketURL:
+          type: string
+          nullable: true
+          description: 'Path to the user profile picture inside the storage bucket'
+          example: 'avatars/user123.jpg'
+        profilePictureURL:
+          type: string
+          nullable: true
+          description: 'Public URL to the user profile picture'
+          example: 'https://storage.googleapis.com/bucket/avatars/user123.jpg'
+      additionalProperties: false
