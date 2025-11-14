@@ -8,8 +8,19 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, "public")));
+// Swagger docs
+app.use("/docs", express.static(path.join(__dirname, "public/docs")));
+
+// MQTT docs
+app.use("/mqtt", express.static(path.join(__dirname, "public/mqtt")));
+
+// optional: root redirect
+app.get("/", (req, res) => {
+  res.redirect("/docs");
+});
 
 app.listen(PORT, () => {
-  console.log(`Swagger docs running at http://localhost:${PORT}`);
+  console.log(`Docs running at http://localhost:${PORT}`);
+  console.log(`Swagger: http://localhost:${PORT}/docs`);
+  console.log(`MQTT docs: http://localhost:${PORT}/mqtt`);
 });
