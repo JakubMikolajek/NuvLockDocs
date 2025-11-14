@@ -93,7 +93,7 @@
 
 -   "locks/+/logs":
 
-    -   **API:** /receive-from-mqtt | **POST**
+    -   **API:** /on-logs-sync | **POST**
 
     -   **Payload:**
 
@@ -128,3 +128,41 @@
           payload
         FROM
           "locks/+/status/state"`
+
+-   "locks/+/status/config":
+
+    -   **API:** /on-receive-config | **POST**
+
+    -   **Payload:**
+
+        `{
+          "topic": "${topic}",
+          "payload": ${payload}
+        }`
+
+    -   **SQL query:**
+
+        `SELECT
+          topic,
+          payload
+        FROM
+          "locks/+/status/config"`
+
+-   "locks/+/current/config":
+
+    -   **API:** /on-config-sync | **POST**
+
+    -   **Payload:**
+
+        `{
+          "topic": "${topic}",
+          "payload": ${payload}
+        }`
+
+    -   **SQL query:**
+
+        `SELECT
+          topic,
+          payload
+        FROM
+          "locks/+/current/config"`
