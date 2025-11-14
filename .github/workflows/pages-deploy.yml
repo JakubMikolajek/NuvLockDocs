@@ -17,8 +17,8 @@ jobs:
         env:
           SWAGGER_PW_HASH: ${{ secrets.SWAGGER_PW_HASH }}
         run: |
-          mkdir -p public
-          echo "window.SWAGGER_PW_HASH='${SWAGGER_PW_HASH}';" > public/config.js
+          mkdir -p public/docs
+          echo "window.SWAGGER_PW_HASH='${SWAGGER_PW_HASH}';" > public/docs/config.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
