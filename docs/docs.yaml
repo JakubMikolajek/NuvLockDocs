@@ -179,7 +179,6 @@ paths:
               summary: 'Example data'
               value:
                 inviteeEmail: 'user@example.com'
-                language: 'en'
                 systemId: 'abc123'
       responses:
         '200':
@@ -204,6 +203,160 @@ paths:
           description: 'Forbidden'
         '409':
           description: 'Conflict'
+        '500':
+          description: 'Internal server error'
+
+  /onImportConfiguration:
+    post:
+      summary: 'Import lock config from another one'
+      operationId: 'onImportConfiguration'
+      tags:
+        - Locks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportConfigData'
+            example:
+              summary: 'Example data'
+              value:
+                sourceLockId: 'cde123'
+                systemId: 'abc123'
+                targetLockId: 'efg345'
+      responses:
+        '200':
+          description: 'Configuration successfully imported'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Configuration successfully imported'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: 'Lock not found / Source data not found'
+        '500':
+          description: 'Internal server error'
+
+  /onLockStateChange:
+    post:
+      summary: 'Change lock state (lock / unlock)'
+      operationId: 'onLockStateChange'
+      tags:
+        - Locks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockStateChangeData'
+            example:
+              summary: 'Example data'
+              value:
+                lockId: 'cde123'
+                state: 'lock'
+                systemId: 'abc123'
+      responses:
+        '200':
+          description: 'Example response for lock state'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Command lock send to cde123'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: 'Lock not found'
+        '500':
+          description: 'Internal server error'
+
+  /onLockUpdate:
+    post:
+      summary: 'Partial update for lock config'
+      operationId: 'onLockUpdate'
+      tags:
+        - Locks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLockData'
+            example:
+              summary: 'Example data'
+              value:
+                lockId: 'cde123'
+                systemId: 'abc123'
+                adminPin: '12312312'
+                alias: 'Dupa'
+                remoteUnlock: true
+                serverSynchronization: false
+      responses:
+        '200':
+          description: 'Example response for lock update'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Lock update successfully'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: 'Lock not found'
+        '500':
+          description: 'Internal server error'
+
+  /onSyncTrigger:
+    post:
+      summary: 'Manual sync trigger for config and logs'
+      operationId: 'onSyncTrigger'
+      tags:
+        - Locks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLockData'
+            example:
+              summary: 'Example data'
+              value:
+                lockId: 'cde123'
+                systemId: 'abc123'
+      responses:
+        '200':
+          description: 'Example response for sync trigger'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Syncing in progress'
+        '400':
+          description: 'Invalid parameter'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: 'Lock not found'
         '500':
           description: 'Internal server error'
 
@@ -440,6 +593,41 @@ paths:
         '500':
           description: 'Internal server error'
 
+  /onUserFieldsUpdate:
+    put:
+      summary: Update user custom fields
+      operationId: onUserFieldsUpdate
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldsData'
+            example:
+              - key: "fcmToken"
+                value: "asdhjajksdhjkashdjkahsd"
+      responses:
+        '200':
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User updated'
+        '400':
+          description: Invalid parameter
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
 
 components:
   schemas:
@@ -522,17 +710,90 @@ components:
       type: object
       required:
         - inviteeEmail
-        - language
         - systemId
       properties:
         inviteeEmail:
           type: string
           format: email
           example: 'user@example.com'
-        language:
+        systemId:
           type: string
-          description: 'Language code for the invitation (e.g., en, pl)'
-          example: 'en'
+          example: 'abc123'
+      additionalProperties: false
+
+    ImportConfigData:
+      type: object
+      required:
+        - sourceLockId
+        - systemId
+        - targetLockId
+      properties:
+        sourceLockId:
+          type: string
+          example: 'cde123'
+        systemId:
+          type: string
+          example: 'abc123'
+        targetLockId:
+          type: string
+          example: 'efg345'
+      additionalProperties: false
+
+    LockStateChangeData:
+      type: object
+      required:
+        - lockId
+        - state
+        - systemId
+      properties:
+        lockId:
+          type: string
+          example: 'bcd234'
+        state:
+          type: string
+          enum: ['lock', 'unlock']
+          example: 'lock'
+          description: 'New lock state (remote unlock feature)'
+        systemId:
+          type: string
+          example: 'abc123'
+      additionalProperties: false
+
+    UpdateLockData:
+      type: object
+      required:
+        - lockId
+        - systemId
+      properties:
+        lockId:
+          type: string
+          example: 'bcd234'
+        systemId:
+          type: string
+          example: 'abc123'
+        adminPin:
+          type: string
+          example: '12312312'
+        alias:
+          type: string
+          example: 'Dupa'
+        remoteUnlock:
+          type: string
+          example: true
+        serverSynchronization:
+          type: string
+          example: false
+      additionalProperties: false
+
+    SyncTriggerData:
+      type: object
+      required:
+        - lockId
+        - systemId
+      properties:
+        lockId:
+          type: string
+          example: 'bcd234'
         systemId:
           type: string
           example: 'abc123'
@@ -641,3 +902,30 @@ components:
           description: 'Public URL to the user profile picture'
           example: 'https://storage.googleapis.com/bucket/avatars/user123.jpg'
       additionalProperties: false
+
+    FieldItem:
+      type: object
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          minLength: 1
+          example: "firstName"
+        value:
+          description: "Value to set for the field. Can be string, number, boolean, or null."
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+            - type: 'null'
+          example: "John"
+
+    FieldsData:
+      type: array
+      items:
+        $ref: '#/components/schemas/FieldItem'
+      example:
+        - key: "fcmToken"
+          value: "asdhjajksdhjkashdjkahsd"
