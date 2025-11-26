@@ -150,6 +150,21 @@
           payload
         FROM
           "locks/+/status/state"`
+    
+    -   **State data:**
+    
+        `{
+            deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+            message: {
+              data: {
+                state: 'locked'
+              },
+              method: 'remote',
+              type: 'state_change'
+            },
+            systemId: '8VNXq9YqBXL4WiWmnrwj',
+            triggeredAt: '2025-11-26T10:15:30.000Z'
+        }`
 
 -   "locks/+/status/config":
 
