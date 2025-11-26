@@ -132,6 +132,20 @@
         FROM
           "locks/+/logs"`
 
+    -   **Logs:**
+        `{
+          deviceId: FSSIOT.1.1.1.404CCA43A084,
+          message: {
+            data: {
+              logs: []
+            },
+            method: 'remote',
+            type: 'sync_logs'
+          },
+          systemId: '8VNXq9YqBXL4WiWmnrwj',
+          triggeredAt: '2025-11-26T10:15:30.000Z'
+        }`
+
 -   "locks/+/status/state":
 
     -   **API:** /on-receive-state | **POST**
