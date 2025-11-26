@@ -90,6 +90,26 @@
           payload
         FROM
           "locks/+/status/heartbeat"`
+    -   **Heartbeat:**
+        `deviceId: FSSIOT.1.1.1.404CCA43A084,
+        message: {
+          data: {
+            bssid: 'F8:1A:67:AA:7F:B9',
+            conType: 'wifi',
+            conUptime: 86400,
+            errorFlag: 0,
+            fw: '1.0.10',
+            memFree: 254312,
+            mode: 'ready',
+            rssi: -42,
+            status: 'ok',
+            uptime: 172800
+          },
+          method: 'local',
+          type: 'heartbeat'
+        },
+        systemId: '8VNXq9YqBXL4WiWmnrwj',
+        triggeredAt: '2025-11-26T10:15:30.000Z'`
 
 -   "locks/+/logs":
 
