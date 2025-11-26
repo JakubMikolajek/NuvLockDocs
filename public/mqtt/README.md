@@ -185,6 +185,21 @@
         FROM
           "locks/+/status/config"`
 
+    -   **Config data:**
+
+        `{
+            deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+            message: {
+              data: {
+                // diff from config
+              },
+              method: 'remote',
+              type: 'config_change'
+            },
+            systemId: '8VNXq9YqBXL4WiWmnrwj',
+            triggeredAt: '2025-11-26T10:15:30.000Z'
+        }`
+
 -   "locks/+/current/config":
 
     -   **API:** /on-config-sync | **POST**
@@ -203,3 +218,18 @@
           payload
         FROM
           "locks/+/current/config"`
+
+    -   **Current config data:**
+
+        `{
+            deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+            message: {
+              data: {
+                // diff from config
+              },
+              method: 'remote',
+              type: 'sync_config'
+            },
+            systemId: '8VNXq9YqBXL4WiWmnrwj',
+            triggeredAt: '2025-11-26T10:15:30.000Z'
+        }`
