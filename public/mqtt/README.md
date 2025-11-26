@@ -2,11 +2,70 @@
 
 *   locks/{lock\_id}/cmd/lock - Lock the device
 
+    `{
+        deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+        message: {
+          state: 'lock'
+        },
+        systemId: '8VNXq9YqBXL4WiWmnrwj',
+        triggeredAt: '2025-11-26T10:15:30.000Z'
+    }`
+
 *   locks/{lock\_id}/cmd/unlock - Unlock the device
+
+    `{
+        deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+        message: {
+          state: 'unlock'
+        },
+        systemId: '8VNXq9YqBXL4WiWmnrwj',
+        triggeredAt: '2025-11-26T10:15:30.000Z'
+    }`
 
 *   locks/{lock\_id}/cmd/logs - Request logs from lock
 
 *   locks/{lock\_id}/cmd/config - Update configuration (a'la PATCH - partial)
+
+  `{
+        deviceId: 'FSSIOT.1.1.1.404CCA43A084',
+        message: {
+          // diff
+        },
+        salt: 'salt'
+        systemId: '8VNXq9YqBXL4WiWmnrwj',
+        triggeredAt: '2025-11-26T10:15:30.000Z'
+    }`
+
+*   locks/{lock\_id}/cmd/passcodes - Update passcodes
+
+  `{
+        deviceId: 'FSSIOT.1.1.1.404CCA43A084',        
+        action: 'sync' // 'delete',
+        passcode: {
+          calendar?: {
+            sunday: {
+              from: 16200,
+              to: 57600
+            }
+          },
+          createdAt: 'November 26, 2025 at 11:21:38 AM UTC+1',
+          createdBy: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
+          name: 'Test 1',
+          passcode: 'cd1dbd3d27f4a37491609cb0c69d52e65c7f5c91ebd066941b2ecf0e5d90b44e',
+          type: 'CALENDAR_RANGE' // LIFETIME | TIME_RANGE,
+          uid?: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
+          updatedAt: 'November 26, 2025 at 11:21:38 AM UTC+1',
+          updatedBy: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
+          user?: {
+            emial: 'jm0@fss.cc',
+            name: 'J M'
+          },
+          validFrom?: 1764152437,
+          validTo?: 1764152437
+        },
+        systemId: '8VNXq9YqBXL4WiWmnrwj',
+        triggeredAt: '2025-11-26T10:15:30.000Z'
+   }`
 
 **Status Topics (locks publish):**
 
@@ -92,7 +151,7 @@
           "locks/+/status/heartbeat"`
     -   **Heartbeat:**
         `{
-          deviceId: FSSIOT.1.1.1.404CCA43A084,
+          deviceId: 'FSSIOT.1.1.1.404CCA43A084',
           message: {
             data: {
               bssid: 'F8:1A:67:AA:7F:B9',
