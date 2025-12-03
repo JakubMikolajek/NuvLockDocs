@@ -273,7 +273,7 @@
             triggeredAt: '2025-11-26T10:15:30.000Z'
         }`
 
--   "locks/+/current/config":
+-   "locks/+/config/current":
 
     -   **API:** /on-config-sync | **POST**
 
@@ -290,7 +290,7 @@
           topic,
           payload
         FROM
-          "locks/+/current/config"`
+          "locks/+/config/current"`
 
     -   **Current config data:**
 
@@ -298,7 +298,23 @@
             deviceId: 'FSSIOT.1.1.1.404CCA43A084',
             message: {
               data: {
-                // diff from config
+                adminPin: 'e470029a45506d1b50ea3d125a295cf4820aeb1768f8d760b0a0fe020780a2ab'
+                alias: 'FSS Andro'
+                connected: true
+                createdAt: 'November 4, 2025 at 11:24:13AM UTC+1'
+                createdBy: 'HCGn12X94WcHUPypdIDpV6LksI73'
+                fw: '1.0.10'
+                groups: ['id1', 'id2']
+                mac: '22:33:44:55:66:11'
+                name: 'Keypad_0'
+                privacyMode: false
+                serverSynchronization: true
+                remoteUnlock: false
+                sn: 'FSSIOT.1.1.1.404CCA43F084'
+                state: 'locked' | 'unlocked' | 'pending'
+                syncedAt: 'November 4, 2025 at 11:24:13AM UTC+1' 
+                updatedAt: 'November 4, 2025 at 11:24:13AM UTC+1'
+                updatedBy: 'HCGn12X94WcHUPypdIDpV6LksI73'
               },
               method: 'remote',
               type: 'sync_config'
