@@ -239,7 +239,7 @@
               data: {
                 state: 'locked'
               },
-              method: 'remote' | 'fingerprint' | 'passcode' | 'rfid'
+              method: 'remote' | 'fingerprint' | 'passcode' | 'rfid',
               type: 'state_change'
             },
             systemId: '8VNXq9YqBXL4WiWmnrwj',
@@ -273,7 +273,7 @@
               data: {
                 // diff from config
               },
-              method: 'remote',
+              method: 'remote' | 'fingerprint' | 'passcode' | 'rfid',
               type: 'config_change'
             },
             systemId: '8VNXq9YqBXL4WiWmnrwj',
@@ -323,7 +323,7 @@
                 updatedAt: 'November 4, 2025 at 11:24:13AM UTC+1'
                 updatedBy: 'HCGn12X94WcHUPypdIDpV6LksI73'
               },
-              method: 'remote',
+              method: 'remote' | 'fingerprint' | 'passcode' | 'rfid',
               type: 'sync_config'
             },
             systemId: '8VNXq9YqBXL4WiWmnrwj',
