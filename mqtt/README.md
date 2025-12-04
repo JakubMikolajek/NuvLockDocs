@@ -7,8 +7,7 @@
         message: {
           state: 'lock'
         },
-        systemId: '8VNXq9YqBXL4WiWmnrwj',
-        triggeredAt: '2025-11-26T10:15:30.000Z'
+        systemId: '8VNXq9YqBXL4WiWmnrwj'
     }`
 
 *   locks/{lock\_id}/cmd/unlock - Unlock the device
@@ -18,8 +17,7 @@
         message: {
           state: 'unlock'
         },
-        systemId: '8VNXq9YqBXL4WiWmnrwj',
-        triggeredAt: '2025-11-26T10:15:30.000Z'
+        systemId: '8VNXq9YqBXL4WiWmnrwj'
     }`
 
 *   locks/{lock\_id}/cmd/logs - Request logs from lock
@@ -29,18 +27,32 @@
       `{
           deviceId: 'FSSIOT.1.1.1.404CCA43A084',
           message: {
-            // diff
+            adminPin: 'e470029a45506d1b50ea3d125a295cf4820aeb1768f8d760b0a0fe020780a2ab'
+            alias: 'FSS Andro'
+            connected: true
+            createdAt: 'November 4, 2025 at 11:24:13AM UTC+1'
+            createdBy: 'HCGn12X94WcHUPypdIDpV6LksI73'
+            fw: '1.0.10'
+            groups: ['id1', 'id2']
+            mac: '22:33:44:55:66:11'
+            name: 'Keypad_0'
+            privacyMode: false
+            serverSynchronization: true
+            remoteUnlock: false
+            sn: 'FSSIOT.1.1.1.404CCA43F084'
+            state: 'locked' | 'unlocked' | 'pending'
+            syncedAt: 'November 4, 2025 at 11:24:13AM UTC+1' 
+            updatedAt: 'November 4, 2025 at 11:24:13AM UTC+1'
+            updatedBy: 'HCGn12X94WcHUPypdIDpV6LksI73'
           },
-          salt: 'salt'
-          systemId: '8VNXq9YqBXL4WiWmnrwj',
-          triggeredAt: '2025-11-26T10:15:30.000Z'
+          systemId: '8VNXq9YqBXL4WiWmnrwj'
       }`
 
 *   locks/{lock\_id}/cmd/passcodes - Update passcodes
 
       `{
         deviceId: 'FSSIOT.1.1.1.404CCA43A084',        
-        action: 'sync' // 'delete',
+        action: 'sync' | 'delete',
         passcode: {
           calendar?: {
             sunday: {
@@ -48,13 +60,13 @@
               to: 57600
             }
           },
-          createdAt: 'November 26, 2025 at 11:21:38 AM UTC+1',
+          createdAt: 'November 26, 2025 at 11:21:38AM UTC+1',
           createdBy: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
           name: 'Test 1',
           passcode: 'cd1dbd3d27f4a37491609cb0c69d52e65c7f5c91ebd066941b2ecf0e5d90b44e',
-          type: 'CALENDAR_RANGE' // LIFETIME | TIME_RANGE,
+          type: 'CALENDAR_RANGE' | 'LIFETIME' | 'TIME_RANGE',
           uid?: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
-          updatedAt: 'November 26, 2025 at 11:21:38 AM UTC+1',
+          updatedAt: 'November 26, 2025 at 11:21:38AM UTC+1',
           updatedBy: 'QeOicm4IZoRT2zJ2nuLpbWXIgLu1',
           user?: {
             emial: 'jm0@fss.cc',
@@ -64,7 +76,6 @@
           validTo?: 1764152437
         },
         systemId: '8VNXq9YqBXL4WiWmnrwj',
-        triggeredAt: '2025-11-26T10:15:30.000Z'
       }`
 
 **Status Topics (locks publish):**
@@ -153,19 +164,6 @@
         `{
           deviceId: 'FSSIOT.1.1.1.404CCA43A084',
           message: {
-            data: {
-              bssid: 'F8:1A:67:AA:7F:B9',
-              conType: 'wifi',
-              conUptime: 86400,
-              errorFlag: 0,
-              fw: '1.0.10',
-              memFree: 254312,
-              mode: 'ready',
-              rssi: -42,
-              status: 'ok',
-              uptime: 172800
-            },
-            method: 'local',
             type: 'heartbeat'
           },
           systemId: '8VNXq9YqBXL4WiWmnrwj',
@@ -194,15 +192,24 @@
     -   **Logs:**
         `{
           deviceId: FSSIOT.1.1.1.404CCA43A084,
-          message: {
-            data: {
-              logs: []
+          logs: [
+            {
+              message: {
+                data: {
+                  state: 'locked'
+                },
+                method: 'remote',
+                type: 'state_change'
+                method: 'remote' | 'fingerprint' | 'passcode' | 'rfid'
+              }
             },
-            method: 'remote',
-            type: 'sync_logs'
-          },
-          systemId: '8VNXq9YqBXL4WiWmnrwj',
-          triggeredAt: '2025-11-26T10:15:30.000Z'
+            {
+              message: {
+                type: 'heartbeat'
+              }
+            }
+          ],
+          systemId: '8VNXq9YqBXL4WiWmnrwj'
         }`
 
 -   "locks/+/status/state":
@@ -232,7 +239,7 @@
               data: {
                 state: 'locked'
               },
-              method: 'remote',
+              method: 'remote' | 'fingerprint' | 'passcode' | 'rfid'
               type: 'state_change'
             },
             systemId: '8VNXq9YqBXL4WiWmnrwj',
